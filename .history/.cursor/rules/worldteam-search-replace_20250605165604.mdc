@@ -1,0 +1,91 @@
+---
+description: 
+globs: 
+alwaysApply: false
+---
+# WorldTeam Search & Replace Plugin Guide
+
+## Plugin Overview
+This is a WordPress search and replace plugin that allows users to search for text in database content (posts, pages, ACF fields) and theme files, with the ability to perform bulk replacements.
+
+## Key Architecture Decisions
+
+### Simplified Approach
+- **Database Handler**: Uses simple `get_posts()` + `stripos()` approach (like [demo.php](mdc:demo.php)) instead of complex SQL queries
+- **No Complex Features**: Removed debug functionality, backup buttons, and plugin file search to focus on core functionality
+- **English Only**: All interface text converted from Chinese to English for international use
+
+## Core Files Structure
+
+### Main Plugin File
+- **[worldteam-search-replace.php](mdc:worldteam-search-replace.php)**: Main plugin entry point
+  - Handles WordPress hooks and AJAX endpoints
+  - Loads all required classes
+  - Contains activation/deactivation logic
+
+### Admin Interface
+- **[includes/admin-page.php](mdc:includes/admin-page.php)**: Admin interface HTML
+  - Search form with scope options (posts, pages, ACF, theme files)
+  - Results display area
+  - Performance settings
+
+### Core Classes
+- **[includes/class-database-handler.php](mdc:includes/class-database-handler.php)**: Database search/replace operations
+  - **Key**: Uses simple `get_posts()` + `stripos()` for reliability (matches [demo.php](mdc:demo.php) approach)
+  - Handles posts, pages, and ACF field searching
+  - Simple replace functionality using `str_ireplace()`
+
+- **[includes/class-search-handler.php](mdc:includes/class-search-handler.php)**: Main search coordinator
+  - Handles AJAX requests
+  - Coordinates between database and file searches
+  - Generates search summaries
+
+- **[includes/class-file-scanner.php](mdc:includes/class-file-scanner.php)**: Theme file searching
+  - **Note**: Plugin file search was intentionally removed
+  - Only searches theme files for security
+
+### Frontend Assets
+- **[assets/js/admin.js](mdc:assets/js/admin.js)**: JavaScript for admin interface
+  - AJAX search/replace functionality
+  - Pagination and result display
+  - Form validation and user feedback
+
+## Search Functionality
+
+### Database Search Process
+1. Uses `get_posts()` to retrieve all posts/pages
+2. Loops through each post and uses `stripos()` for case-insensitive search
+3. Searches in: post_title, post_content, post_excerpt
+4. ACF fields searched using `get_fields()` if ACF plugin is active
+
+### File Search Process
+1. Scans theme directory recursively
+2. Searches only in allowed file extensions (php, css, js, etc.)
+3. **Important**: Plugin files excluded for security reasons
+
+## Key Features Removed
+- Debug information display (intentionally removed for simplicity)
+- Backup functionality (removed to reduce complexity)
+- Plugin file search (security decision)
+
+## Error Handling Strategy
+- Database handler returns empty arrays instead of throwing exceptions
+- Comprehensive error logging for debugging
+- Graceful degradation when features are unavailable (e.g., ACF not installed)
+
+## Performance Considerations
+- Limited to 100 posts per search to prevent timeouts
+- File size limits (2MB max per file)
+- Pagination for large result sets
+- Memory management in file scanning
+
+## Localization
+- All text strings use English only
+- Previously converted from Chinese interface
+- Uses WordPress `__()` functions for potential future translation
+
+## Testing Reference
+- **[demo.php](mdc:demo.php)**: Working reference implementation
+  - Uses same `get_posts()` + `stripos()` approach
+  - Serves as reliability benchmark for database search functionality
+

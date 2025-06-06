@@ -1,0 +1,70 @@
+---
+description: 
+globs: 
+alwaysApply: false
+---
+# Development Patterns and Conventions
+
+## Code Organization Patterns
+
+### PHP Class Structure
+- All handler classes extend base functionality and follow WordPress coding standards
+- Classes use dependency injection for database and file scanner instances
+- Error handling with try-catch blocks and comprehensive logging
+- Transaction management for database operations
+
+### JavaScript Patterns
+- Single WTSR object containing all functionality (namespace pattern)
+- Event delegation for dynamic content
+- Debouncing and throttling for performance optimization
+- Promise-based AJAX with comprehensive error handling
+
+### CSS Organization
+- Component-based styles with clear naming conventions
+- Responsive design with mobile-first approach
+- CSS transitions and animations for smooth UX
+- Consistent spacing and typography scale
+
+## Key Implementation Details
+
+### ACF (Advanced Custom Fields) Support
+- Uses `get_field_object()` to obtain field keys for reliable ACF operations
+- Handles complex field types (arrays, objects) with recursive processing
+- Implements `replaceInComplexACFField()` for nested field structures
+- Updates fields using `update_field()` with proper field keys
+
+### Custom Post Types Integration
+- Dynamic detection using `get_post_types()` with filters
+- 'cpt_' prefix convention for custom post type scopes
+- Special handling for widget post types (both 'widget' and 'widgets')
+- Automatic checkbox generation in admin interface
+
+### Modal Management
+- CSS class-based show/hide (`.wtsr-modal-show`) instead of inline styles
+- Smooth animations with opacity and transform transitions
+- Background click prevention for result modals
+- Proper z-index layering for multiple modals
+
+### Performance Optimizations
+- File size limits (2MB max) for theme file scanning
+- Pagination for large result sets
+- Memory management with periodic garbage collection
+- Limited file scanning (PHP files only) for better performance
+
+## Error Handling Conventions
+- Comprehensive error logging with context information
+- User-friendly error messages in admin interface
+- Graceful degradation when features are unavailable (e.g., ACF plugin not installed)
+- Transaction rollback for database operations on failure
+
+## Data Flow Patterns
+1. **Search Flow**: User input → Validation → Multi-scope search → Results aggregation → Display
+2. **Replace Flow**: Selection → Confirmation → Backup creation → Replace execution → Results display
+3. **Modal Flow**: Trigger → Show animation → User interaction → Close animation → Cleanup
+
+## Security Measures
+- WordPress nonce verification for all AJAX requests
+- Capability checks (`manage_options`) for admin operations
+- Input sanitization and output escaping
+- File access restrictions with security headers
+

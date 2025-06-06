@@ -3,7 +3,7 @@
 ![WordPress](https://img.shields.io/badge/WordPress-6.7%2B-blue)
 ![PHP](https://img.shields.io/badge/PHP-8.0%2B-purple)
 ![License](https://img.shields.io/badge/License-GPL%20v2%2B-green)
-![Version](https://img.shields.io/badge/Version-1.1.0-orange)
+![Version](https://img.shields.io/badge/Version-1.0.0-orange)
 
 A powerful WordPress content search and replace tool with support for Posts, Pages, ACF fields, and PHP template files with batch search and replace functionality.
 

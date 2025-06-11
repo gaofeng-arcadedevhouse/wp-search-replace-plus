@@ -153,7 +153,6 @@ class WTSR_File_Scanner {
                 return null;
             }
             
-            $match_context = $this->getContextLines($matches, $relative_path);
             $match_count = count($matches);
             
             return array(
@@ -161,7 +160,7 @@ class WTSR_File_Scanner {
                 'id' => $relative_path,
                 'title' => basename($relative_path),
                 'description' => sprintf(__('File: %s', 'worldteam-search-replace'), $relative_path),
-                'content' => $match_context,
+                'matches' => $matches,
                 'location' => 'Files',
                 'file_path' => $relative_path,
                 'match_count' => $match_count
